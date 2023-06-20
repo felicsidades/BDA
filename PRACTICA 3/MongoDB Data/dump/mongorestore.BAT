@@ -1,0 +1,1 @@
+mongorestore.exe -h localhost .\

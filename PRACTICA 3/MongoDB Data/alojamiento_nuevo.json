@@ -1,0 +1,93 @@
+    {
+      "_id" : "100824220",
+      "listing_url" : "https://www.airbnb.com/rooms/100824220",
+      "name" : "Nice room in Madrid Center",
+      "summary" : "Hi!  Cozy double bed room in amazing flat next to Plaza Mayor Joan and to metro stop Sol. Flat located in the center of the city.",
+      "space" : "Nice flat in the central neighboorhood of Madrid.",
+      "description" : "Cozy double bed room in amazing flat next to Plaza Mayor Joan and to metro stop Sol. Flat located in the center of the city.",
+      "neighborhood_overview" : "Centro",
+      "notes" : "",
+      "transit" : "",
+      "access" : "Ideal couple or 2 friends.",
+      "interaction" : "",
+      "house_rules" : "",
+      "property_type" : "Apartment",
+      "room_type" : "Private room",
+      "bed_type" : "Real Bed",
+      "minimum_nights" : "1",
+      "maximum_nights" : "9",
+      "cancellation_policy" : "flexible",
+      "last_scraped" : ISODate("2022-03-08T05:00:00.000Z"),
+      "calendar_last_scraped" : ISODate("2022-03-08T05:00:00.000Z"),
+      "accommodates" : 2,
+      "bedrooms" : 1,
+      "beds" : 2,
+      "number_of_reviews" : 0,
+      "bathrooms" : NumberDecimal("1.0"),
+      "amenities" : [
+          "Internet",
+          "Wifi",
+          "Kitchen",
+          "Elevator",
+          "Heating",
+          "Washer",
+          "Shampoo",
+          "Hair dryer",
+          "Iron",
+          "Laptop friendly workspace"
+      ],
+      "price" : NumberDecimal("50.00"),
+      "security_deposit" : NumberDecimal("100.00"),
+      "cleaning_fee" : NumberDecimal("10.00"),
+      "extra_people" : NumberDecimal("0.00"),
+      "guests_included" : NumberDecimal("1"),
+      "images" : {
+          "thumbnail_url" : "",
+          "medium_url" : "",
+          "picture_url" : "",
+          "xl_picture_url" : ""
+      },
+      "host" : {
+          "host_id" : "30393403",
+          "host_url" : "https://www.airbnb.com/users/show/30393403",
+          "host_name" : "Ana",
+          "host_location" : "Barcelona, Catalonia, Spain",
+          "host_about" : "I'm Anna, italian. I'm 28, friendly and easygoing.  I love travelling, reading, dancing tango. Can wait to meet new people! :)",
+          "host_thumbnail_url" : "https://a0.muscache.com/im/users/30393403/profile_pic/1427876639/original.jpg?aki_policy=profile_small",
+          "host_picture_url" : "https://a0.muscache.com/im/users/30393403/profile_pic/1427876639/original.jpg?aki_policy=profile_x_medium",
+          "host_neighbourhood" : "Dreta de l'Eixample",
+          "host_is_superhost" : false,
+          "host_has_profile_pic" : true,
+          "host_identity_verified" : false,
+          "host_listings_count" : 1,
+          "host_total_listings_count" : 1,
+          "host_verifications" : [
+              "phone",
+              "facebook"
+          ]
+      },
+      "address" : {
+          "street" : "Madrid, Madrid, Spain",
+          "suburb" : "Centro",
+          "government_area" : "Distrito Centro",
+          "market" : "Madrid",
+          "country" : "Spain",
+          "country_code" : "ES",
+          "location" : {
+              "type" : "Point",
+              "coordinates" : [
+                  -3.703889,
+                  40.416667
+              ],
+              "is_location_exact" : false
+          }
+      },
+      "availability" : {
+          "availability_30" : 0,
+          "availability_60" : 0,
+          "availability_90" : 0,
+          "availability_365" : 0
+      },
+      "review_scores" : {},
+      "reviews" : []
+  }

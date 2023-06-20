@@ -1,0 +1,1 @@
+mongorestore -h localhost dump
