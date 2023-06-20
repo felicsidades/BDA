@@ -117,6 +117,7 @@ having sum((precio_unitario - descuento_unitario) * cantidad) >= (
 		 group by clienteID
 		 ) as totales2021
 );
+
 -- RESPUESTA
 /*Busca aquellos`por encima del percentil 90 que se hayan gastado mas dinero que la media de lo gastado en el año 2021*/
 -- ELIMINAR INDICES
@@ -125,6 +126,81 @@ DROP index categoria_nombrecategoria on categoriaproducto;
 -- Original "query_cost": "2812.62"
 -- fecha nacimiento no mejora la consulta
 CREATE INDEX idx_fecha_nacimiento_anio ON clientes(fecha_nacimiento);
-CREATE INDEX idx_fecha_venta ON clientes(fecha_venta);
+CREATE INDEX idx_fecha_venta ON pedidos(fecha_venta);
+
+/*5. Estudio de índices en actualizaciones. */
+/*a. Eliminar los índices creados en el apartado anterior manteniendo claves primarias y foráneas. */
+DROP index categoria_nombrecategoria on categoriaproducto; 
+drop INDEX idx_fecha_nacimiento_anio ON clientes;
+drop INDEX idx_fecha_venta ON pedidos;
+/*b. Para aquellos pedidos realizados a lo largo del año 2023, incrementar el descuento unitario en un
+1% para los productos vendidos con categoría Bicicleta y que ya tuvieran descuento, es decir, sea
+distinto de 0. Actualizar la tabla detallepedidos para que contemple dicho incremento tomando
+nota de su tiempo, plan y coste de ejecución. Deshacer el cambio con ‘rollback’.*/
+start transaction;
+update detallepedidos d
+inner join productos pr on pr.productoID=d.productoID
+inner join pedidos pe on pe.pedidoID=d.pedidoID
+inner join subcategoriaproducto s on s.subCategoriaID=pr.subCategoriaID
+inner join categoriaproducto c on c.categoriaID=s.categoriaID
+set descuento_unitario=descuento_unitario-1
+where fecha_venta like'2023%' 
+and descuento_unitario <> 0;
+rollback;
+/*c. Suponiendo la existencia de otros procesos actuando sobre la misma base de datos que requieren
+para optimizar cierto tipo de consultas de un índice en la tabla detalleproductos sobre los atributos
+producotid, precio_unitario y descuento_unitario, crear dicho índice mediante la siguiente
+sentencia sql: */
+start transaction;
+create index idx_detalleproductoprecio on detallepedidos (ProductoID, precio_unitario,descuento_unitario); 
+rollback;
+
+
+/*6. Desnormalización. */	
+
+ALTER TABLE detallepedidos DROP FOREIGN KEY idx_detalleproductoprecio;
+ALTER TABLE detallepedidos DROP INDEX idx_detalleproductoprecio;
+/*b. Crear una consulta que devuelva, para cada pedido el nombre del cliente, su país, la fecha del
+pedido, el total del pedido calculado como la suma de los detalles de cada pedido (precio_unitario
+– descuento_unitario) * cantidad. Tomar nota del coste y plan de ejecución. */
+select primer_nombre,segundo_nombre,pe.pedidoID,sum((precio_unitario-descuento_unitario)*cantidad) as sumatotal
+from pedidos pe 
+inner join detallepedidos d on d.pedidoID=pe.pedidoID
+inner join clientes c on pe.clienteID=c.clienteID
+group by pedidoID;
+-- "query_cost": "21048.88"
+/*c. Aplicar la técnica o técnicas de desnormalización que se consideren más adecuadas para acelerar
+la consulta anterior, creando los scripts sql necesarios para modificar el esquema de la base de
+datos. */
+start transaction;
+ALTER TABLE pedidos ADD sumatotal float DEFAULT 0;
+UPDATE pedidos p 
+INNER JOIN (
+  SELECT pedidoID, SUM((precio_unitario - descuento_unitario) * cantidad) AS total
+  FROM detallepedidos
+  GROUP BY pedidoID
+) d ON d.pedidoID = p.pedidoID
+SET p.sumatotal = d.total;
+rollback;
+
+-- TRIGGERS
+DELIMITER $$
+CREATE TRIGGER actualizarsuma
+AFTER INSERT
+ON detallepedidos
+FOR EACH ROW
+BEGIN
+    UPDATE pedidos p 
+    INNER JOIN (
+      SELECT pedidoID, SUM((precio_unitario - descuento_unitario) * cantidad) AS total
+      FROM detallepedidos
+      GROUP BY pedidoID
+    ) d ON d.pedidoID = p.pedidoID
+    SET p.sumatotal = d.total;
+END $$
+DELIMITER ;
+
+
+
 
 
