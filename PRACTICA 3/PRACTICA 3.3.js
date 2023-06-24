@@ -52,4 +52,25 @@ db.listing.find({$where: function() {
 db.cuentarevisiones.find()
 
 
-
+db.listing.find()
+//Ejercicio 3
+/*F. Mostrar el número medio de camas que hay en cada market (campo address.market) de los 
+Estados Unidos (US). Ignorar aquellos alojamientos cuyo market sea vacio */
+db.listing.aggregate([
+  {$match: {'address.country_code': "US"}},
+  {$group: {_id: "$address.market", avgBeds: {$avg: "$beds"}}}
+])
+/*G. Mostrar el precio medio de un alojamiento por pais y market. Ignorar aquellos alojamientos 
+cuyo market sea vacio y mostrar los resultados ordenados por pais y market de manera 
+alfabética */
+db.listing.aggregate([
+  {$group: {_id: ["$address.market","$address.country"], avgprice: {$avg: "$price"}}}
+])
+/*H. Mostrar el precio medio por país de alquilar un alojamiento que permita mascotas (debe 
+contener el amenity "Pets allowed"). Mostrar los resultados ordenados del país más caro al 
+más barato*/
+db.listing.aggregate([
+    {$match: {amenities: 'Pets allowed'}},
+    {$group: {_id: "$address.country", avgprice: {$avg: "$price"}}},
+    { $sort: { avgprice: -1 } }
+])
