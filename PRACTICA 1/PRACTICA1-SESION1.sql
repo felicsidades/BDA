@@ -28,11 +28,8 @@ CREATE INDEX key_quinta ON tablaunica (nombre_local,fecha_hora,producto,medida);
 /*3. Resolver en SQL las siguientes consultas: */
 /*a. Obtener el número de clientes que han realizado pedidos entregados en Local.*/
 SELECT clienteID
-from tablaunica
-where clienteID in(SELECT clienteID
-					FROM practica1bda_tablaunica.tablaunica
-					WHERE entrega = 'Local'
-					GROUP BY clienteID)
+FROM practica1bda_tablaunica.tablaunica
+WHERE entrega = 'Local'
 GROUP BY clienteID;
 /*Obtener para cada pedido registrado el día 12 de febrero de 2023 que no incluya ningún tipo de oferta, el nombre del local, el nombre y medida del producto y
 su tipo. Ordenar el resultado por nombre del producto y nombre del local. */
