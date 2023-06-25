@@ -33,7 +33,7 @@ WHERE entrega = 'Local'
 GROUP BY clienteID;
 /*Obtener para cada pedido registrado el día 12 de febrero de 2023 que no incluya ningún tipo de oferta, el nombre del local, el nombre y medida del producto y
 su tipo. Ordenar el resultado por nombre del producto y nombre del local. */
-select producto, tipo, medida
+select nombre_local,producto, tipo, medida
 from tablaunica
 where fecha_hora like '%2023-02-12%'
 and nombre_oferta is null
